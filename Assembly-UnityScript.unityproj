@@ -46,10 +46,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Arrow.js" />
      <Compile Include="Assets\Scripts\GameManager.js" />
      <Compile Include="Assets\Scripts\Health.js" />
      <Compile Include="Assets\Scripts\Ladder.js" />
      <Compile Include="Assets\Scripts\Movement.js" />
+     <Compile Include="Assets\Scripts\PlayerShoot.js" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Programas/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

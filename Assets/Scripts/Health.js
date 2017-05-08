@@ -12,17 +12,12 @@ function Start () {
 }
 
 function Update () {
-	if(currentHealth > maxHealth){
-		currentHealth = maxHealth;
-	}
-	if(currentHealth <= 0){
-		//send message to game master
-	}
-	updateHearts();
+	
 }
 
 function takeDamage(damage: int){
 	currentHealth--;
+	capHealth();
 	updateHearts();
 }
 
@@ -49,5 +44,14 @@ function updateHearts(){
 			heart3.enabled = true;
 		default:
 			break;
+	}
+}
+
+function capHealth(){
+	if(currentHealth > maxHealth){
+		currentHealth = maxHealth;
+	}
+	if(currentHealth <= 0){
+		//send message to game master
 	}
 }
