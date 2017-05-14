@@ -1,18 +1,23 @@
 ﻿#pragma strict
+import UnityEngine.UI;
 
 public var shooting : boolean;
+public var numberOfArrows : int;
 public var shootSpeed : float;
-public var arrowPrefab : GameObject;
 public var reloadTime : float = 1.5;
-public var reloadTimer: float = 0;
-public var angle : float;
 public var damage : int = 1;
 
+public var arrowPrefab : GameObject;
+public var bow : GameObject;
+public var text_numberOfArrows : Text;
+
 //============================
-public var arrow : GameObject;
-public var posOffset : Vector2;
-public var mousePos : Vector2;
-public var playerPos:Vector3;
+private var reloadTimer: float = 0;
+private var angle : float;
+private var arrow : GameObject;
+private var posOffset : Vector2;
+private var mousePos : Vector2;
+private var playerPos:Vector3;
 
 
 function Start () {
@@ -21,21 +26,32 @@ function Start () {
 }
 
 function Update () {
+	text_numberOfArrows.text = "x" + numberOfArrows;
 	if (reloadTimer > 0){
 		reloadTimer -= Time.deltaTime;
 	}
+	if( shooting == false){
+		bow.SetActive(false);
+	}else {
+		bow.SetActive(true);
+	}
 	if (Input.GetMouseButton(0)) {
-		if (reloadTimer <= 0 && shooting == false) {
+		if (reloadTimer <= 0 && shooting == false && numberOfArrows > 0) {
 			reloadTimer = reloadTime;
 			arrow = Instantiate(arrowPrefab, transform.position + posOffset, Quaternion.identity) as GameObject;
 			arrow.transform.rotation = Quaternion.identity;
 			arrow.transform.Rotate(Vector3.forward, angle);
 			shooting = true;
+			numberOfArrows--;
 		} else if (shooting == true) {
 			getAngle();
 			arrow.transform.position = transform.position + posOffset;
 			arrow.transform.rotation = Quaternion.identity;
 			arrow.transform.Rotate(Vector3.forward, angle);
+
+			bow.transform.rotation = Quaternion.identity;
+			bow.transform.Rotate(Vector3.forward, angle);
+			bow.transform.position = transform.position + posOffset;
 		}
 	} else if (shooting == true) {
 		var rb = arrow.GetComponent("Rigidbody2D") as Rigidbody2D;
@@ -46,14 +62,6 @@ function Update () {
 }
 
 function getAngle(){
-	/*
-	var playerPos2D = gameObject.transform.position;
-	var playerPos3D = new Vector3(playerPos2D.x, playerPos2D.y,0); 
-	playerPos = playerPos3D;
-	mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-	angle = Vector3.Angle(playerPos3D,mousePos);
-	*/
 	mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
  
  	var mousePos_xy = new Vector2(mousePos.x, mousePos.y);

@@ -1,12 +1,12 @@
 ﻿#pragma strict
 
-public var maxMovementSpeed : float = 5;
-public var moveForce : float = 1;
-public var climbForce : float = 0.5; 
+public var maxMovementSpeed : float;
+public var moveForce : float;
+public var climbForce : float; 
 public var gravity : float = 9.8;
 
-public var jumpForce : float = 10;
-public var grounded : boolean = false;
+public var jumpForce : float;
+public var grounded : boolean;
 public var canClimb: boolean;
 
 public var rb : Rigidbody2D;
@@ -16,10 +16,25 @@ public var verticalMovement : float = 0;
 public var speedx : float;
 public var speedy : float;
 
-function Start () {
+public var anim : Animator;
+
+function Update(){
+	anim.SetFloat("Speedx", Mathf.Abs(speedx));
+	anim.SetFloat("Speedy", Mathf.Abs(speedy));
+	var spriteRend = gameObject.GetComponent("SpriteRenderer") as SpriteRenderer;
+	if(speedx > 0.1){
+		spriteRend.flipX = false;
+	} else if (speedx < -0.1) {
+		spriteRend.flipX = true;
+	}
+	if(canClimb){
+		anim.SetBool("Climbing",true);
+	} else {
+		anim.SetBool("Climbing",false);
+	}
 }
 
-function Update () {
+function FixedUpdate () {
 	horizontalMovement = Input.GetAxisRaw("Horizontal");
 	rb.AddForce(new Vector2(horizontalMovement * moveForce, 0));
 
