@@ -38,7 +38,7 @@ function Update(){
 
 function FixedUpdate () {
 	horizontalMovement = Input.GetAxisRaw("Horizontal");
-	if(grounded > 0 || canClimb > 0)
+	//if(grounded > 0 || canClimb > 0)
 		rb.AddForce(new Vector2(horizontalMovement * moveForce, 0));
 
 	verticalMovement = Input.GetAxisRaw("Vertical");
