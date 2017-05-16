@@ -12,13 +12,12 @@ function Start () {
 }
 
 function Update () {
-	
+	updateHearts();
 }
 
 function takeDamage(damage: int){
 	currentHealth--;
 	capHealth();
-	updateHearts();
 }
 
 function updateHearts(){

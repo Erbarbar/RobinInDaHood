@@ -7,7 +7,7 @@ public var gravity : float = 9.8;
 
 public var jumpForce : float;
 public var grounded : boolean;
-public var canClimb: boolean;
+public var canClimb: int;
 
 public var rb : Rigidbody2D;
 public var horizontalMovement : float = 0;
@@ -27,7 +27,7 @@ function Update(){
 	} else if (speedx < -0.1) {
 		spriteRend.flipX = true;
 	}
-	if(canClimb){
+	if(canClimb > 0){
 		anim.SetBool("Climbing",true);
 	} else {
 		anim.SetBool("Climbing",false);
@@ -71,14 +71,16 @@ function OnCollisionExit2D(coll: Collision2D){
 }
 
 function OnLadderEnter(){
-	rb.gravityScale = 0;
-	rb.drag = 10;
-	rb.velocity = new Vector2(rb.velocity.x, 0);
-	canClimb = true;
+	if(++canClimb > 0){
+		rb.gravityScale = 0;
+		rb.drag = 10;
+		rb.velocity = new Vector2(rb.velocity.x, 0);
+	}
 }
 
 function OnLadderExit(){
-	rb.gravityScale = gravity;
-	rb.drag = 3;
-	canClimb = false;
+	if (--canClimb == 0){
+		rb.gravityScale = gravity;
+		rb.drag = 3;
+	}
 }
