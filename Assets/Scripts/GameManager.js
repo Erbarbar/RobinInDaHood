@@ -4,8 +4,9 @@ import UnityEngine.UI;
 public var timer : float = 0;
 public var timeLimit : float = 10;
 public var overTime : boolean = false;
+public var score : float;
 
-public 
+
 
 public var text_time: Text;
 
@@ -45,4 +46,10 @@ function showTime(time : float){
 	text_time.text = text_time.text + seconds.ToString();
 
 	text_time.color = (overTime)? new Color(255,0,0,1):new Color(0,255,0,1);
+}
+
+
+function onHomeEnter(player : GameObject){
+	var healthScript = player.GetComponent("Health") as Health;
+	var health = healthScript.currentHealth;
 }

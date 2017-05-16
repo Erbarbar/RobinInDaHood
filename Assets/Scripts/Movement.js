@@ -6,7 +6,7 @@ public var climbForce : float;
 public var gravity : float = 9.8;
 
 public var jumpForce : float;
-public var grounded : boolean;
+public var grounded : int;
 public var canClimb: int;
 
 public var rb : Rigidbody2D;
@@ -32,19 +32,24 @@ function Update(){
 	} else {
 		anim.SetBool("Climbing",false);
 	}
+	if(grounded < 0)
+		grounded = 0;
 }
 
 function FixedUpdate () {
 	horizontalMovement = Input.GetAxisRaw("Horizontal");
-	rb.AddForce(new Vector2(horizontalMovement * moveForce, 0));
+	if(grounded > 0 || canClimb > 0)
+		rb.AddForce(new Vector2(horizontalMovement * moveForce, 0));
 
 	verticalMovement = Input.GetAxisRaw("Vertical");
 	if(canClimb){
 		rb.AddForce(new Vector2(0, verticalMovement * climbForce));
 	}
 
-	if(Input.GetKeyDown("space") && grounded){
+	if(Input.GetKeyDown("space") && grounded > 0){
+		Debug.Log("Jump");
 		rb.AddForce(new Vector2(.0f, jumpForce),ForceMode2D.Impulse);
+		grounded = 0;
 	}
 	capSpeed();
 	speedx = rb.velocity.x;
@@ -59,14 +64,16 @@ function capSpeed(){
 	}
 }
 
-function OnCollisionStay2D(coll: Collision2D) {
-	if(coll.gameObject.tag == "Floor"){
-		grounded = true;
+
+function OnTriggerEnter2D(coll: Collider2D){
+	if (coll.gameObject.tag == "Floor"){
+		grounded++;
 	}
 }
-function OnCollisionExit2D(coll: Collision2D){
+
+function OnTriggerExit2D(coll: Collider2D){
 	if (coll.gameObject.tag == "Floor"){
-		grounded = false;
+		grounded--;
 	}
 }
 
