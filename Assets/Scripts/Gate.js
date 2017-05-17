@@ -1,5 +1,6 @@
 ﻿#pragma strict
 
+public var gate : GameObject;
 public var atGate : boolean = true;
 private var player : GameObject;
 public var gateType : float;
@@ -8,15 +9,14 @@ public var closedTop : Sprite;
 public var closedSide : Sprite;
 public var closedMiddle: Sprite;
 private var usedSprite : SpriteRenderer;
-usedSprite = gameObject.GetComponent.<SpriteRenderer>();
-
+usedSprite = gate.GetComponent.<SpriteRenderer>();
 player = GameObject.Find("Player");
 
 
 public var gateClosing : boolean;
 
 
-function Update () {
+function Update() {
 	if(atGate && Input.GetKeyDown ("e")){
 		player.transform.position = Vector3(player.transform.position.x, player.transform.position.y, 5);
 		player.layer = 10;
@@ -25,7 +25,6 @@ function Update () {
 	if (gateClosing){
 		closeGate();
 	}
-
 }
 
 function OnTriggerEnter2D(coll: Collider2D){
