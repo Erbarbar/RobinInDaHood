@@ -15,6 +15,7 @@ public var goingLeft : boolean;
 
 public var action : String;
 
+public var anim : Animator;
 private var rb : Rigidbody2D;
 
 function Start () {
@@ -31,6 +32,7 @@ function FixedUpdate () {
 
     switch(action){
         case "patrolling":
+            anim.SetBool("Chasing", false);
             if(alarmed && !gameManager.gateClosed){
                 action = "alarming";
             }
@@ -49,6 +51,7 @@ function FixedUpdate () {
             }
         break;
         case "alarming":
+            anim.SetBool("Chasing", true);
             moveTorwards(alarmPos, speed);
             if(compareFloats(this.transform.position.x, alarmPos, 0.1)){
                 gameManager.alarm = true;
@@ -57,6 +60,7 @@ function FixedUpdate () {
             }
         break;
         case "chasing":
+            anim.SetBool("Chasing", true);
             lastSeenPos = gameManager.lastSeenPos;
             moveTorwards(lastSeenPos, speed);
             if(compareFloats(this.transform.position.x, lastSeenPos, 0.1)){
@@ -66,6 +70,7 @@ function FixedUpdate () {
             }
         break;
         case "toPost":
+            anim.SetBool("Chasing", false);
             if(alarmed){
                 action = "chasing";
                 break;
