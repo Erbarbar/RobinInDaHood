@@ -19,6 +19,9 @@ private var posOffset : Vector2;
 private var mousePos : Vector2;
 private var playerPos:Vector3;
 
+public var audioSource : AudioSource;
+public var drawSound : AudioClip;
+public var shootSound : AudioClip;
 
 function Start () {
 	shooting = false;
@@ -37,6 +40,7 @@ function Update () {
 	}
 	if (Input.GetMouseButton(0)) {
 		if (reloadTimer <= 0 && shooting == false && numberOfArrows > 0) {
+			GetComponent.<AudioSource>().PlayOneShot(drawSound, 1);
 			reloadTimer = reloadTime;
 			arrow = Instantiate(arrowPrefab, transform.position + posOffset, Quaternion.identity) as GameObject;
 			arrow.transform.rotation = Quaternion.identity;
@@ -56,6 +60,7 @@ function Update () {
 	} else if (shooting == true) {
 		var rb = arrow.GetComponent("Rigidbody2D") as Rigidbody2D;
 		rb.AddForce(new Vector2(Mathf.Cos(angle*Mathf.PI/180),Mathf.Sin(angle*Mathf.PI/180)) * shootSpeed, ForceMode2D.Impulse);
+		GetComponent.<AudioSource>().PlayOneShot(shootSound, 1);
 		shooting = false;
 	}
 
