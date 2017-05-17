@@ -5,7 +5,7 @@ public var score : float;
 public var timer : float = 0;
 public var timeLimit : float = 10;
 public var overTime : boolean = false;
-public var minLoot : float = 100;
+public var minLoot : float = 0;
 public var orphansCreated : float;
 public var alarm : boolean;
 public var lastSeenPos : float;
@@ -64,5 +64,9 @@ function onHomeEnter(player : GameObject){
 }
 
 function calcScore(health : int, loot : float, time : float, overTime : boolean){
-	score = (health*100) + (loot*100) + ((overTime)? -time : time*10);
+	score = (health*100) + (loot*10) - Mathf.Round(orphansCreated)*100 + ((overTime)? -time : time*10);
 }
+
+function MainMenu(){
+	Application.LoadLevel ("MainMenu");
+} 
