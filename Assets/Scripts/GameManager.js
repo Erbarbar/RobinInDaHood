@@ -1,17 +1,19 @@
 ﻿#pragma strict
 import UnityEngine.UI;
 
+public var score : float;
 public var timer : float = 0;
 public var timeLimit : float = 10;
 public var overTime : boolean = false;
-public var score : float;
-
+public var minLoot : float = 100;
+public var orphansCreated : float;
 
 
 public var text_time: Text;
 
 function Start () {
 	timer = timeLimit;
+	score = 0;
 }
 
 function Update () {
@@ -50,6 +52,15 @@ function showTime(time : float){
 
 
 function onHomeEnter(player : GameObject){
+	var lootScript = player.GetComponent("LootBag") as LootBag;
+	var loot = lootScript.loot;
+	if(loot < minLoot)
+		return;
 	var healthScript = player.GetComponent("Health") as Health;
 	var health = healthScript.currentHealth;
+	calcScore(health, loot, timer, overTime);
+}
+
+function calcScore(health : int, loot : float, time : float, overTime : boolean){
+	score = (health*100) + (loot*100) + ((overTime)? -time : time*10);
 }
