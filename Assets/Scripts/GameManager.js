@@ -7,13 +7,15 @@ public var timeLimit : float = 10;
 public var overTime : boolean = false;
 public var minLoot : float = 100;
 public var orphansCreated : float;
-
-
+public var alarm : boolean;
+public var lastSeenPos : float;
+public var gateClosed : boolean;
 public var text_time: Text;
 
 function Start () {
 	timer = timeLimit;
 	score = 0;
+	gateClosed = false;
 }
 
 function Update () {
