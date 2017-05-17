@@ -2,13 +2,16 @@
 var inShadow : boolean = false;
 private var player : GameObject;
 player = GameObject.Find("Player");
+var sprite : SpriteRenderer;
+sprite = player.gameObject.GetComponent.<SpriteRenderer>();
 
 
 
 function Update(){
 	if(inShadow && Input.GetKeyDown ("e")){
-		player.transform.position = Vector3(player.transform.position.x, player.transform.position.y, 5);
-		player.layer = 10;
+		sprite.sortingLayerName = "Hidden";
+		sprite.sortingOrder = 0;	
+		player.layer = 14;
 	}	
 }
 
@@ -21,7 +24,8 @@ function OnTriggerEnter2D(coll: Collider2D){
 function OnTriggerExit2D(coll: Collider2D){
 	if(coll.gameObject.name == "Player"){
 		inShadow = false;
-		player.transform.position = Vector3(player.transform.position.x, player.transform.position.y, 0);
+		sprite.sortingLayerName = "Players";
+		sprite.sortingOrder = 0;	
 		player.layer = 0;
 	}
 }
