@@ -14,7 +14,7 @@ function Start () {
 }
 
 function Update () {
-    text_mass.text = extraMassPercent + "%";
+    text_mass.text = extraMassPercent + "";
     if(extraMassPercent < 0)
         extraMassPercent = 0;
 }

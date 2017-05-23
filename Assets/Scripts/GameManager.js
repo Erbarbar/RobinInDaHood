@@ -13,6 +13,7 @@ public var gateClosed : boolean;
 public var text_time: Text;
 public var cursorTexture: Texture2D;
 
+
 function Start () {
 	var cursorMode: CursorMode = CursorMode.Auto;
 	var hotSpot: Vector2 = Vector2.zero;
@@ -66,6 +67,7 @@ function onHomeEnter(player : GameObject){
 	var healthScript = player.GetComponent("Health") as Health;
 	var health = healthScript.currentHealth;
 	score = (health*100) + (loot*10) - Mathf.Round(orphansCreated)*100 + ((overTime)? -timer*10 : timer*10)+((gateClosed)? 0 : 300);
+
 	message="Your adventure gets a score of "+score+"!\n"+
 			"Remaining Health: 100x "+ health+" = "+(health*100)+"\n"+
 			"Loot: 10x "+ loot+" = "+(loot*10)+"\n"+
@@ -86,11 +88,15 @@ function Reload(){
 function inMenu(){
 	var player :GameObject = GameObject.Find("Player");
 	var playerShoot = player.GetComponent("PlayerShoot") as PlayerShoot;
+	var playerMove = player.GetComponent("Movement") as Movement;
 	playerShoot.paused=true;
+	playerMove.paused = true;
 }
 
 function notInMenu(){
 	var player :GameObject = GameObject.Find("Player");
 	var playerShoot = player.GetComponent("PlayerShoot") as PlayerShoot;
+	var playerMove = player.GetComponent("Movement") as Movement;
 	playerShoot.paused=false;
+	playerMove.paused = false;
 }

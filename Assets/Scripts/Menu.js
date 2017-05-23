@@ -14,7 +14,13 @@ public var lootBag : LootBag;
 public var hint:GameObject;
 public var hint2:GameObject;
 
+public var highScoreUI : GameObject;
+
+public var audioSrc : AudioSource;
+private var highScore : float;
+
 function Start(){
+	highScore = PlayerPrefs.GetFloat("HighScore");
 	player = GameObject.Find("Player");
 	lootBag = player.GetComponent("LootBag");
 	managerScript = gameManager.GetComponent("GameManager") as GameManager;
@@ -26,7 +32,7 @@ function Start(){
 
 function Update(){
 	if(inPosition&&Input.GetKeyDown ("e")&&!paused){
-		if (lootBag.loot>minLoot){
+		if (lootBag.loot>=minLoot){
 			PromptEndLevelMenu();
 		} else {
 			PromptHint2();
@@ -65,10 +71,18 @@ function Resume(){
 }
 
 function PromptEndLevelMenu(){
-	Time.timeScale=0.0;
+	//Time.timeScale=0.0;
+	audioSrc.Pause();
 	gameManager.SendMessage("inMenu");
 	paused=true;
 	endLevelMenu.SetActive(true);
+	var thisScore = managerScript.score;
+	Debug.Log(highScore);
+	if(thisScore > highScore){
+		highScore = thisScore;
+		PlayerPrefs.SetFloat("HighScore", highScore);
+		highScoreUI.SetActive(true);
+	}
 }
 
 function PromptHint1(){

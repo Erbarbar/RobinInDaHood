@@ -1,5 +1,7 @@
 ﻿#pragma strict
 
+public var paused: boolean=false;
+
 public var maxMovementSpeed : float;
 public var moveForce : float;
 public var climbForce : float; 
@@ -37,19 +39,21 @@ function Update(){
 }
 
 function FixedUpdate () {
-	horizontalMovement = Input.GetAxisRaw("Horizontal");
-	//if(grounded > 0 || canClimb > 0)
-		rb.AddForce(new Vector2(horizontalMovement * moveForce, 0));
+	if(!paused){
+		horizontalMovement = Input.GetAxisRaw("Horizontal");
+		//if(grounded > 0 || canClimb > 0)
+			rb.AddForce(new Vector2(horizontalMovement * moveForce, 0));
 
-	verticalMovement = Input.GetAxisRaw("Vertical");
-	if(canClimb){
-		rb.AddForce(new Vector2(0, verticalMovement * climbForce));
-	}
+		verticalMovement = Input.GetAxisRaw("Vertical");
+		if(canClimb){
+			rb.AddForce(new Vector2(0, verticalMovement * climbForce));
+		}
 
-	if(Input.GetKeyDown("space") && grounded > 0){
-		Debug.Log("Jump");
-		rb.AddForce(new Vector2(.0f, jumpForce),ForceMode2D.Impulse);
-		grounded = 0;
+		if(Input.GetKeyDown("space") && grounded > 0){
+			Debug.Log("Jump");
+			rb.AddForce(new Vector2(.0f, jumpForce),ForceMode2D.Impulse);
+			grounded = 0;
+		}
 	}
 	capSpeed();
 	speedx = rb.velocity.x;
