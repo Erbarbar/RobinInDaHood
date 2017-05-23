@@ -6,6 +6,7 @@ public var currentHealth: int;
 public var heart1: Image;
 public var heart2: Image;
 public var heart3: Image;
+public var gameOver: GameObject; // initialized in editor, as it is inactive on Start()
 
 function Start () {
 	currentHealth = maxHealth;
@@ -52,5 +53,14 @@ function capHealth(){
 	}
 	if(currentHealth <= 0){
 		//send message to game master
+		die();
 	}
+}
+
+function die(){
+	var gameManagerObj : GameObject = GameObject.Find("GameManager");
+	var gameManager = gameManagerObj.GetComponent("GameManager") as GameManager;
+	Time.timeScale=0;
+	gameManager.SendMessage("inMenu");
+	gameOver.SetActive(true);
 }

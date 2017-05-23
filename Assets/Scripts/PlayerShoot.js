@@ -1,6 +1,7 @@
 ﻿#pragma strict
 import UnityEngine.UI;
 
+public var paused: boolean=false;
 public var shooting : boolean;
 public var numberOfArrows : int;
 public var shootSpeed : float;
@@ -38,7 +39,7 @@ function Update () {
 	}else {
 		bow.SetActive(true);
 	}
-	if (Input.GetMouseButton(0)) {
+	if (Input.GetMouseButton(0)&&!paused) {
 		if (reloadTimer <= 0 && shooting == false && numberOfArrows > 0) {
 			GetComponent.<AudioSource>().PlayOneShot(drawSound, 1);
 			reloadTimer = reloadTime;

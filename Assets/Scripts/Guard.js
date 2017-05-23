@@ -14,6 +14,7 @@ public var patrollingDistance : float;
 public var goingLeft : boolean;
 
 public var action : String;
+public var timer : float = 20;
 
 public var anim : Animator;
 private var rb : Rigidbody2D;
@@ -63,9 +64,11 @@ function FixedUpdate () {
             anim.SetBool("Chasing", true);
             lastSeenPos = gameManager.lastSeenPos;
             moveTorwards(lastSeenPos, speed);
-            if(compareFloats(this.transform.position.x, lastSeenPos, 0.1)){
+			timer -= Time.deltaTime;
+            if(compareFloats(this.transform.position.x, lastSeenPos, 0.1) || (timer <= 0)){
                 alarmed = false;
                 gameManager.alarm = false;
+				timer = 20;
                 action = "toPost";
             }
         break;
