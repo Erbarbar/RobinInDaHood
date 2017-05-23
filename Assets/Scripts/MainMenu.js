@@ -8,6 +8,13 @@ public function newGame(){
 }
 
 /**
+*Clear HighScore
+*/
+public function clearHighScore(){
+    PlayerPrefs.SetFloat("HighScore",0.0);
+}
+
+/**
 *Quit Game.
 */
 public function Quit(){

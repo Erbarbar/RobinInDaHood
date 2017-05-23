@@ -8,6 +8,7 @@ public var endLevelMenu :GameObject;// initialized in editor, as it is inactive 
 public var gameManager : GameObject;
 public var managerScript : GameManager;
 public var score : Text;
+public var highScoreText : Text;
 public var player : GameObject;
 public var minLoot : float;
 public var lootBag : LootBag;
@@ -103,12 +104,12 @@ function PromptEndLevelMenu(){
 	paused=true;
 	endLevelMenu.SetActive(true);
 	var thisScore = managerScript.score;
-	Debug.Log(highScore);
 	if(thisScore > highScore){
 		highScore = thisScore;
 		PlayerPrefs.SetFloat("HighScore", highScore);
 		highScoreUI.SetActive(true);
 	}
+	highScoreText.text = "HighScore: " + highScore;
 }
 
 /**
