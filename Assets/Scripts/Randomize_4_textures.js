@@ -13,12 +13,18 @@ public var weight_1 : float = 0.25;
 public var weight_2 : float = 0.25;
 public var weight_3 : float = 0.25;
 
-
+/**
+*Called upon loading the Scene
+*/
 function Start(){
 	randomNumber = Random.Range(0,1024);
 	setSprite(randomNumber);
 }
 
+/**
+*Reads random number, and assigns a random, but weighted texture to the GameObject
+*@param{float} number calculated random number
+*/
 function setSprite(number : float){
 
 	if(number<(1024*weight_0)){

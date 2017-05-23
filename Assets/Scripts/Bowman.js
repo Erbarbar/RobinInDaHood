@@ -20,6 +20,9 @@ public var audioSource : AudioSource;
 public var drawSound : AudioClip;
 public var shootSound : AudioClip;
 
+/**
+*Called upon loading the Scene
+*/
 function Start () {
     var manager = GameObject.Find("GameManager") as GameObject;
     gameManager = manager.GetComponent("GameManager") as GameManager;
@@ -29,11 +32,23 @@ function Start () {
     bow.SetActive(false);
 }
 
+/**
+*Called each frame
+*Kills NPC if their health is 0.
+*/
 function Update(){
     if(health <= 0)
         die();
 }
 
+/**
+*Called every fixed framerate frame.
+*Handles NPC State Machine
+*States are:
+*	Chilling: idle
+*	Aiming: give visual clue that player is bneing targeted and then shoot him
+*	Reloading: manage attack intervalls
+*/
 function FixedUpdate () {
     if (timer > 0)
         timer -= Time.deltaTime;
@@ -70,6 +85,11 @@ function FixedUpdate () {
     }
 }
 
+/**
+*Called when a collider stays in a trigger zone.
+*Update target position and engage.
+*@param{Collider2D} coll The collider on the Gamobject that enters the trigger. GameObject should be Player.
+*/
 function OnTriggerStay2D(coll : Collider2D){
     if(coll.tag == "Player"){
         target = coll.transform.position;
@@ -82,6 +102,9 @@ function OnTriggerStay2D(coll : Collider2D){
     }
 }
 
+/**
+*Get angle between bowman and player
+*/
 function getAngle(){
  
     var target_xy = new Vector2(target.x, target.y);
@@ -96,10 +119,17 @@ function getAngle(){
     return myangle;
 }
 
+/**
+*Reduce health by damage.
+*@param{int} damage damage to be taken
+*/
 function takeDamage(damage : int){
     health -= damage;
 }
 
+/**
+*Kill Object and create 0-4 orphans.
+*/
 function die(){
     gameManager.orphansCreated += Random.value * 4;
     if(bow)

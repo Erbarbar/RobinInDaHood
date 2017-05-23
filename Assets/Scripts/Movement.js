@@ -20,6 +20,10 @@ public var speedy : float;
 
 public var anim : Animator;
 
+/**
+*Called each frame.
+*Adjusts animaton and sprite to movement
+*/
 function Update(){
 	anim.SetFloat("Speedx", Mathf.Abs(speedx));
 	anim.SetFloat("Speedy", Mathf.Abs(speedy));
@@ -38,11 +42,14 @@ function Update(){
 		grounded = 0;
 }
 
+/**
+*Called every fixed framerate frame.
+*Gets User input and moves player
+*/
 function FixedUpdate () {
 	if(!paused){
 		horizontalMovement = Input.GetAxisRaw("Horizontal");
-		//if(grounded > 0 || canClimb > 0)
-			rb.AddForce(new Vector2(horizontalMovement * moveForce, 0));
+		rb.AddForce(new Vector2(horizontalMovement * moveForce, 0));
 
 		verticalMovement = Input.GetAxisRaw("Vertical");
 		if(canClimb){
@@ -50,7 +57,6 @@ function FixedUpdate () {
 		}
 
 		if(Input.GetKeyDown("space") && grounded > 0){
-			Debug.Log("Jump");
 			rb.AddForce(new Vector2(.0f, jumpForce),ForceMode2D.Impulse);
 			grounded = 0;
 		}
@@ -60,6 +66,9 @@ function FixedUpdate () {
 	speedy = rb.velocity.y;
 }
 
+/**
+* Sets Maximum Movement speed
+*/
 function capSpeed(){
 	if( rb.velocity.x > maxMovementSpeed){
 		rb.velocity = new Vector2(maxMovementSpeed,rb.velocity.y);
@@ -68,19 +77,31 @@ function capSpeed(){
 	}
 }
 
-
+/**
+*Called when a collider enters a trigger zone.
+*Increase counter to count the amount of GamObjects in the trigger.
+*@param{Collider2D} coll The collider on the Gamobject that enters the trigger. GameObject should be Floor.
+*/
 function OnTriggerEnter2D(coll: Collider2D){
 	if (coll.gameObject.tag == "Floor"){
 		grounded++;
 	}
 }
 
+/**
+*Called when a collider enters a trigger zone.
+*decrease counter to count the amount of GamObjects that left the trigger. 
+*@param{Collider2D} coll The collider on the Gamobject that leaves the trigger. GameObject should be Floor.
+*/
 function OnTriggerExit2D(coll: Collider2D){
 	if (coll.gameObject.tag == "Floor"){
 		grounded--;
 	}
 }
 
+/**
+*Counts how many ladder tiles are in use. If more than 0, gives the option to go vertical.
+*/
 function OnLadderEnter(){
 	if(++canClimb > 0){
 		rb.gravityScale = 0;
@@ -89,6 +110,9 @@ function OnLadderEnter(){
 	}
 }
 
+/**
+*Counts how many ladder tiles are in use. If 0, removes the option to go vertical.
+*/
 function OnLadderExit(){
 	if (--canClimb == 0){
 		rb.gravityScale = gravity;

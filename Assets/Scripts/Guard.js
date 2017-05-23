@@ -19,6 +19,9 @@ public var timer : float = 20;
 public var anim : Animator;
 private var rb : Rigidbody2D;
 
+/**
+*Called upon loading the Scene
+*/
 function Start () {
     rb = gameObject.GetComponent("Rigidbody2D") as Rigidbody2D;
 	var gameManagerObject = GameObject.Find("GameManager");
@@ -27,6 +30,15 @@ function Start () {
     goingLeft = true;
 }
 
+/**
+*Called every fixed framerate frame.
+*Handles NPC State Machine, and kills them if their health is 0.
+*States are:
+*	Patrolling: moving left and right up to a certain distance of post
+*	Alarming: move towards gate, sound the alarm and close gate.
+*	Chasing: try to cahtch up with players last known position. If impossible to reach after 20 seconds, abort.
+*	To post: return to post to resume patrol.
+*/
 function FixedUpdate () {
 	if (health <= 0)
         die();
@@ -89,18 +101,26 @@ function FixedUpdate () {
         rb.velocity = new Vector2(((rb.velocity.x > 0)? maxSpeed : -maxSpeed), 0);
 }
 
-
-
-
+/**
+*Kill Object and create 0-4 orphans.
+*/
 function die(){
     gameManager.orphansCreated += Random.value * 4;
     Destroy(this.gameObject);
 }
 
+/**
+*Reduce health by one.
+*/
 function takeDamage(damage:float){
     health--;
 }
 
+/**
+*Called when a collider stays in a trigger zone.
+*Update last known position of player.
+*@param{Collider2D} coll The collider on the Gamobject that enters the trigger. GameObject should be Player.
+*/
 function OnTriggerStay2D(coll : Collider2D){
     if(coll.gameObject.tag == "Arrow")
         return;
@@ -108,16 +128,26 @@ function OnTriggerStay2D(coll : Collider2D){
         lastSeenPos = coll.transform.position.x;
         gameManager.lastSeenPos = lastSeenPos;
         alarmed = true;
-        //moveTorwards(coll.transform.position);
     }
 }
 
+/**
+*Moves NPC in a horizontal direction
+*/
 function moveTorwards(end : float, speed : float){
     var start : float = this.transform.position.x;
     this.transform.localScale = new Vector2((start > end ? 1 : -1), 1);
     rb.AddForce(((start > end)? Vector2.left : Vector2.right) * speed, ForceMode2D.Impulse );
 }
 
+
+/**
+*Compares two floats and tells if they are within a margin of each other.
+*@param{float} a first float
+*@param{float} b second float
+*@param{float} margin margin the two floats will be compared by
+*@return true if thy are
+*/
 function compareFloats(a : float, b : float, margin : float){
     if(Mathf.Abs(a - b) < margin)
         return true;
