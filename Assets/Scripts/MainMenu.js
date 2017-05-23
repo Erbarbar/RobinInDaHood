@@ -1,9 +1,15 @@
 ﻿#pragma strict
 
+/**
+*Load level 1.
+*/
 public function newGame(){
     Application.LoadLevel ("Level 1");
-    //SceneManager.LoadScene("dev", LoadSceneMode.Single);
 }
+
+/**
+*Quit Game.
+*/
 public function Quit(){
     Application.Quit()    ;
 }

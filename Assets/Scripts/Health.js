@@ -8,19 +8,32 @@ public var heart2: Image;
 public var heart3: Image;
 public var gameOver: GameObject; // initialized in editor, as it is inactive on Start()
 
+/**
+*Called upon loading the Scene
+*/
 function Start () {
 	currentHealth = maxHealth;
 }
 
+/**
+*Called each frame
+*/
 function Update () {
 	updateHearts();
 }
 
+/**
+*Reduce health by a certain amount, and check if dead
+*@param{int} dammage dammage to be taken
+*/
 function takeDamage(damage: int){
 	currentHealth--;
 	capHealth();
 }
 
+/**
+*Update UI to reflect current health;
+*/
 function updateHearts(){
 	switch(currentHealth){
 		case 0:
@@ -47,16 +60,21 @@ function updateHearts(){
 	}
 }
 
+/**
+*Cap health at top margin and kill player at bottom margin
+*/
 function capHealth(){
 	if(currentHealth > maxHealth){
 		currentHealth = maxHealth;
 	}
 	if(currentHealth <= 0){
-		//send message to game master
 		die();
 	}
 }
 
+/**
+*Pause game and prompt death screen
+*/
 function die(){
 	var gameManagerObj : GameObject = GameObject.Find("GameManager");
 	var gameManager = gameManagerObj.GetComponent("GameManager") as GameManager;

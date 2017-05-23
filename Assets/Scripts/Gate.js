@@ -11,7 +11,9 @@ private var usedSprite : SpriteRenderer;
 public var coll : BoxCollider2D;
 public var gameManager : GameManager;
 
-
+/**
+*Called upon loading the Scene
+*/
 function Start(){
 	var manager = GameObject.Find("GameManager") as GameObject;
 	gameManager=manager.GetComponent("GameManager") as GameManager;
@@ -19,18 +21,30 @@ function Start(){
 	player = GameObject.Find("Player");
 }
 
+/**
+*Called at each frame
+*Checks if gate should be closed
+*/
 function Update() {
 	if (gameManager.gateClosed){
 		closeGate();
 	}
 }
 
+/**
+*Changes GameObjects layer and order to the targets.
+*@param{layer} layer target layer
+*@param{order} order target order
+*/
 function setLayer(layer : String, order : int){
     var sprite = this.gameObject.GetComponent("SpriteRenderer") as SpriteRenderer;
     sprite.sortingLayerName = layer;
     sprite.sortingOrder = order;
 }
 
+/**
+*Closes the gate by making certain parts impassable and changing textures
+*/
 function closeGate (){
 	gameObject.layer =11;
 	switch(gateType){

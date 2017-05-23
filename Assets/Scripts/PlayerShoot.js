@@ -12,7 +12,6 @@ public var arrowPrefab : GameObject;
 public var bow : GameObject;
 public var text_numberOfArrows : Text;
 
-//============================
 private var reloadTimer: float = 0;
 private var angle : float;
 private var arrow : GameObject;
@@ -24,11 +23,18 @@ public var audioSource : AudioSource;
 public var drawSound : AudioClip;
 public var shootSound : AudioClip;
 
+/**
+*Called upon loading the Scene
+*/
 function Start () {
 	shooting = false;
 	reloadTimer = 0;
 }
 
+/**
+*Called each frame
+*Handles Player arrow count, reload time, firing and arrow physics.
+*/
 function Update () {
 	text_numberOfArrows.text = "x" + numberOfArrows;
 	if (reloadTimer > 0){
@@ -67,6 +73,9 @@ function Update () {
 
 }
 
+/**
+*Gets angle between arrow and mouse position.
+*/
 function getAngle(){
 	mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
  

@@ -19,6 +19,9 @@ public var highScoreUI : GameObject;
 public var audioSrc : AudioSource;
 private var highScore : float;
 
+/**
+*Called upon loading the Scene
+*/
 function Start(){
 	highScore = PlayerPrefs.GetFloat("HighScore");
 	player = GameObject.Find("Player");
@@ -30,6 +33,10 @@ function Start(){
 	PromptHint1();
 }
 
+/**
+*Called each frame
+*Checks if Pause or End level menu should be prompted
+*/
 function Update(){
 	if(inPosition&&Input.GetKeyDown ("e")&&!paused){
 		if (lootBag.loot>=minLoot){
@@ -43,6 +50,12 @@ function Update(){
 	}
 }
 
+/**
+*Called when a collider enters a trigger zone.
+*Sets Flag to true, so user input can come at a later time.
+*Also calculates score, and formats it to be displayed.
+*@param{Collider2D} coll The collider on the Gamobject that enters the trigger. GameObject should be Player.
+*/
 function OnTriggerEnter2D(coll: Collider2D){
 	if(coll.gameObject.name == "Player"){
 		inPosition=true;
@@ -50,12 +63,20 @@ function OnTriggerEnter2D(coll: Collider2D){
 	}
 }
 
+/**
+*Called when a collider leaves a trigger zone.
+*Sets Flag to false.
+*@param{Collider2D} coll The collider on the Gamobject that leaves the trigger. GameObject should be Player.
+*/
 function OnTriggerExit2D(coll: Collider2D){
 	if(coll.gameObject.name == "Player"){
 		inPosition=false;
 	}
 }
 
+/**
+*Prompts Pause menu
+*/
 function Pause(){
 	Time.timeScale=0.0;
 	paused=true;
@@ -63,6 +84,9 @@ function Pause(){
 	gameManager.SendMessage("inMenu");
 }
 
+/**
+*Resumes game from pause menu
+*/
 function Resume(){
 	Time.timeScale=1.0;
 	paused=false;
@@ -70,8 +94,10 @@ function Resume(){
 	gameManager.SendMessage("notInMenu");
 }
 
+/**
+*Prompts End level menu, with score and highscore
+*/
 function PromptEndLevelMenu(){
-	//Time.timeScale=0.0;
 	audioSrc.Pause();
 	gameManager.SendMessage("inMenu");
 	paused=true;
@@ -85,6 +111,9 @@ function PromptEndLevelMenu(){
 	}
 }
 
+/**
+*Prompts first set of text that can be read without time advancing
+*/
 function PromptHint1(){
 	var count: int;
 	var hidden:boolean;
@@ -108,6 +137,9 @@ function PromptHint1(){
 	Time.timeScale=1;
 }
 
+/**
+*Promps hint to rimind tha the player doesn't have enough loot
+*/
 function PromptHint2(){
 	var hidden:boolean=false;
 	hint2.SetActive(true);
