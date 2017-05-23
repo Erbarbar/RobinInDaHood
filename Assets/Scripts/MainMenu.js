@@ -5,5 +5,6 @@ public function newGame(){
     //SceneManager.LoadScene("dev", LoadSceneMode.Single);
 }
 public function Quit(){
-    Application.Quit()    ;
+    PlayerPrefs.Save();
+    Application.Quit();
 }
