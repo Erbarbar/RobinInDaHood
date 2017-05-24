@@ -19,7 +19,7 @@ function Start () {
 *Called each frame
 */
 function Update () {
-    text_mass.text = extraMassPercent + "";
+    text_mass.text = loot + "";
     if(extraMassPercent < 0)
         extraMassPercent = 0;
 }
